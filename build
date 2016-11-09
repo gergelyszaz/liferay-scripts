@@ -1,0 +1,35 @@
+# For building a certain branch from liferay-portal-ee.
+# Setup: see update script
+# Usage:
+#	set the correct java version
+
+# check if parameter was given
+if [ $# -eq 0 ]
+  then
+	echo "No branchname supplied"
+	exit 1
+fi
+
+#check if a folder exists for the branch
+BRANCH=$1
+SPATH=$LIFERAY_GITHUB/liferay-portal-ee-$BRANCH
+if [ ! -d "$SPATH" ]; then
+	echo "Branch folder does not exist: $SPATH"
+	exit 1
+fi
+
+# build with tomcat
+DPATH=$LIFERAY_BUILD/ee/$BRANCH
+rm -r $DPATH
+mkdir -p $DPATH
+cd $SPATH
+ant -buildfile build-dist.xml unzip-tomcat
+ant all
+
+# create portal-ext.properties
+cd $DPATH
+echo "liferay.home=$DPATH
+setup.wizard.enabled=false
+users.reminder.queries.enabled=false
+users.reminder.queries.custom.question.enabled=false
+terms.of.use.required=false" > portal-ext.properties

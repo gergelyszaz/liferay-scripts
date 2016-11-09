@@ -1,0 +1,39 @@
+# For updating a certain branch from liferay-portal-ee.
+# Setup: 
+#	create folders for each liferay-portal-ee branch needed, typically:
+#		master
+#		ee-7.0.x
+#		ee-6.2.x
+#		ee-6.1.x
+#	create environmental variables:
+#		LIFERAY_GITHUB	= github folder containing liferay-portal-ee repo
+#		LIFERAY_BUILD	= folder for the built portals
+
+# check if there is a parameter
+if [ $# -eq 0 ]
+  then
+	echo "No branchname supplied"
+	exit 1
+fi
+
+# check if a folder exists for the branch
+BRANCH=$1
+SPATH=$LIFERAY_GITHUB/liferay-portal-ee-$BRANCH
+if [ ! -d "$SPATH" ]; then
+	echo "Branch folder does not exist: $SPATH"
+	exit 1
+fi
+
+# create app.server.<username>.properties
+cd $SPATH
+DPATH=$LIFERAY_BUILD/ee/$BRANCH
+USER=$(whoami)
+echo "app.server.parent.dir=$DPATH" > app.server.$USER.properties
+
+# update git repo
+git reset --hard HEAD
+git clean -fd
+git checkout $BRANCH
+git pull upstream $BRANCH
+git push origin $BRANCH:$BRANCH
+
