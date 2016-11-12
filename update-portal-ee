@@ -1,0 +1,9 @@
+cd $LIFERAY_GITHUB
+git fetch upstream master:master
+git push origin master:master
+git fetch upstream ee-7.0.x:ee-7.0.x
+git push origin ee-7.0.x:ee-7.0.x
+git fetch upstream ee-6.2.x:ee-6.2.x
+git push origin ee-6.2.x:ee-6.2.x
+git fetch upstream ee-6.1.x:ee-6.1.x
+git push origin ee-6.1.x:ee-6.1.x

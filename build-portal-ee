@@ -10,19 +10,31 @@ if [ $# -eq 0 ]
 	exit 1
 fi
 
-#check if a folder exists for the branch
+# save current state and checkout branch
 BRANCH=$1
-SPATH=$LIFERAY_GITHUB-$BRANCH
-if [ ! -d "$SPATH" ]; then
-	echo "Branch folder does not exist: $SPATH"
-	exit 1
-fi
+SPATH=$LIFERAY_GITHUB
+cd $SPATH
+ORIGINAL=$(git branch | sed -n -e 's/^\* \(.*\)/\1/p')
+git stash
+git checkout $BRANCH
+
+# create app.server.<username>.properties
+cd $SPATH
+DPATH=$LIFERAY_BUILD/$BRANCH
+USER=$(whoami)
+echo "app.server.parent.dir=$DPATH" > app.server.$USER.properties
 
 # build with tomcat
 DPATH=$LIFERAY_BUILD/$BRANCH
 rm -r $DPATH
 mkdir -p $DPATH
 cd $SPATH
+
+set RELEASE_VERSION=RELEASE_7
+set RELEASE_INFO=\portal-kernel\src\com\liferay\portal\kernel\util\ReleaseInfo.java
+set JAVA_HOME=$JAVA7%
+find "%RELEASE_VERSION%" %PORTAL_PATH%%RELEASE_INFO%
+IF NOT ERRORLEVEL 1 set JAVA_HOME=%JAVA_8%
 
 if [ $BRANCH = "ee-6.2.x" ] || [ $BRANCH = "ee-6.1.x" ]
 then
@@ -33,6 +45,13 @@ java -version
 
 ant -buildfile build-dist.xml unzip-tomcat
 ant all
+
+# restore repo
+cd $SPATH
+git clean -fd
+git reset --hard HEAD
+git checkout $ORIGINAL
+git stash apply
 
 # create portal-ext.properties
 cd $DPATH

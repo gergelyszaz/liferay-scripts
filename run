@@ -1,0 +1,30 @@
+#For running the branch
+
+# check if parameter was given
+if [ $# -eq 0 ]
+  then
+	echo "No branchname supplied"
+	exit 1
+fi
+
+#Get path
+BRANCH=$1
+DPATH=$LIFERAY_BUILD/$BRANCH
+
+if [ -d $DPATH/tomcat-7* ] # ee-7.0.x uses tomcat-8*
+then
+	export JAVA_HOME=$JAVA7	
+	export PATH=$JAVA_HOME/bin:$PATH
+fi
+java -version
+
+#TODO check if DPATH and tomcat folder exists
+#Enter tomcat-*/bin
+cd $DPATH
+TOMCAT="$(ls | grep tomcat | grep -v *.zip)"
+echo $TOMCAT
+
+
+#Run
+cd $TOMCAT/bin
+./catalina.sh run

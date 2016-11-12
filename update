@@ -6,8 +6,8 @@
 #		ee-6.2.x
 #		ee-6.1.x
 #	create environmental variables:
-#		LIFERAY_GITHUB	= github folder containing liferay-portal-ee repo
-#		LIFERAY_BUILD	= folder for the built portals
+#		LIFERAY_GITHUB	= liferay-portal-ee repo path
+#		LIFERAY_BUILD	= path for the built portals
 
 # check if there is a parameter
 if [ $# -eq 0 ]
@@ -18,15 +18,18 @@ fi
 
 # check if a folder exists for the branch
 BRANCH=$1
-SPATH=$LIFERAY_GITHUB/liferay-portal-ee-$BRANCH
+SPATH=$LIFERAY_GITHUB-$BRANCH
 if [ ! -d "$SPATH" ]; then
 	echo "Branch folder does not exist: $SPATH"
-	exit 1
+	setup $BRANCH
+	if [ ! -d "$SPATH" ]; then
+		exit 1
+	fi
 fi
 
 # create app.server.<username>.properties
 cd $SPATH
-DPATH=$LIFERAY_BUILD/ee/$BRANCH
+DPATH=$LIFERAY_BUILD/$BRANCH
 USER=$(whoami)
 echo "app.server.parent.dir=$DPATH" > app.server.$USER.properties
 
@@ -36,4 +39,5 @@ git clean -fd
 git checkout $BRANCH
 git pull upstream $BRANCH
 git push origin $BRANCH:$BRANCH
+
 
