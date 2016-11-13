@@ -1,5 +1,5 @@
-# Author: Gergely Száz
-# For building a certain branch from liferay-portal-ee. Builds the given branch, then restores the state of the repository. 
+# Author: Gergely Száz <gergely.szaz@liferay.com>
+# For building a certain branch from liferay-portal-ee.
 # Parameter:
 #	$1: Name of the branch to be built
 # Environmental variables: 

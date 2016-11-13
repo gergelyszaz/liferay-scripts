@@ -1,4 +1,0 @@
-clear-lock master
-clear-lock ee-7.0.x
-clear-lock ee-6.2.x
-clear-lock ee-6.1.x

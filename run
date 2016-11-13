@@ -1,4 +1,11 @@
-#For running the branch
+# Author: Gergely Száz <gergely.szaz@liferay.com>
+# For running the branch
+# Parameters:
+#	$1: Branchname
+# Environmental variables:
+#	LIFERAY_BUILD: build folder path
+#	JAVA7: java 7 path
+#	JAVA8: java 8 path
 
 # check if parameter was given
 if [ $# -eq 0 ]
@@ -7,24 +14,23 @@ if [ $# -eq 0 ]
 	exit 1
 fi
 
-#Get path
+#Get path and set java version
 BRANCH=$1
 DPATH=$LIFERAY_BUILD/$BRANCH
-
-if [ -d $DPATH/tomcat-7* ] # ee-7.0.x uses tomcat-8*
+cd $DPATH
+if [ -d tomcat-7* ] # ee-7.0.x uses tomcat-8*
 then
-	export JAVA_HOME=$JAVA7	
-	export PATH=$JAVA_HOME/bin:$PATH
+	export JAVA_HOME=$JAVA7
+else
+	export JAVA_HOME=$JAVA8
 fi
+export PATH=$JAVA_HOME/bin:$PATH
 java -version
 
-#TODO check if DPATH and tomcat folder exists
 #Enter tomcat-*/bin
 cd $DPATH
 TOMCAT="$(ls | grep tomcat | grep -v *.zip)"
-echo $TOMCAT
-
+cd $TOMCAT/bin
 
 #Run
-cd $TOMCAT/bin
 ./catalina.sh run

@@ -1,7 +1,7 @@
-# Author: Gergely Száz
+# Author: Gergely Száz <gergely.szaz@liferay.com>
 # Usage: run this from the liferay source folder.
 # Environmental variables: 
-# 	LIFERAY_BUILD: path to the build folder
+# 	LIFERAY_BUILD: build folder path
 #	JAVA7: java 7 path
 #	JAVA8: java 8 path
 
