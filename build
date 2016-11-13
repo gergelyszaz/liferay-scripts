@@ -1,36 +1,34 @@
-# For building a certain branch from liferay-portal-ee.
-# Setup: see update script
-# Usage:
-#	set the correct java version
+# Author: Gergely Száz
+# Usage: run this from the liferay source folder.
+# Environmental variables: 
+# 	LIFERAY_BUILD: path to the build folder
+#	JAVA7: java 7 path
+#	JAVA8: java 8 path
 
-# check if parameter was given
-if [ $# -eq 0 ]
-  then
-	echo "No branchname supplied"
-	exit 1
-fi
+# get branch name
+BRANCH=$(git branch | sed -n -e 's/^\* \(.*\)/\1/p')
+echo "Building $BRANCH"
 
-#check if a folder exists for the branch
-BRANCH=$1
-SPATH=$LIFERAY_GITHUB-$BRANCH
-if [ ! -d "$SPATH" ]; then
-	echo "Branch folder does not exist: $SPATH"
-	exit 1
-fi
-
-# build with tomcat
+# clean build folder
 DPATH=$LIFERAY_BUILD/$BRANCH
 rm -r $DPATH
 mkdir -p $DPATH
-cd $SPATH
 
-if [ $BRANCH = "ee-6.2.x" ] || [ $BRANCH = "ee-6.1.x" ]
+# set java version
+RELEASE_VERSION="RELEASE_7"
+RELEASE_INFO=portal-kernel/src/com/liferay/portal/kernel/util/ReleaseInfo.java
+if grep -q $RELEASE_VERSION $RELEASE_INFO
 then
-	export JAVA_HOME=$JAVA7	
-	export PATH=$JAVA_HOME/bin:$PATH
+    export JAVA_HOME=$JAVA8
+else
+    export JAVA_HOME=$JAVA7	
 fi
+export PATH=$JAVA_HOME/bin:$PATH
 java -version
 
+# build
+USER=$(whoami)
+echo "app.server.parent.dir=$DPATH" > app.server.$USER.properties
 ant -buildfile build-dist.xml unzip-tomcat
 ant all
 

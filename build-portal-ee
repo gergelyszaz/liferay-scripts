@@ -1,7 +1,10 @@
-# For building a certain branch from liferay-portal-ee.
-# Setup: see update script
-# Usage:
-#	set the correct java version
+# Author: Gergely Száz
+# For building a certain branch from liferay-portal-ee. Builds the given branch, then restores the state of the repository. 
+# Parameter:
+#	$1: Name of the branch to be built
+# Environmental variables: 
+# 	LIFERAY_BUILD: path to the build folder
+#	LIFERAY_GITHUB: path to the liferay-portal-ee repository
 
 # check if parameter was given
 if [ $# -eq 0 ]
@@ -18,45 +21,11 @@ ORIGINAL=$(git branch | sed -n -e 's/^\* \(.*\)/\1/p')
 git stash
 git checkout $BRANCH
 
-# create app.server.<username>.properties
-cd $SPATH
-DPATH=$LIFERAY_BUILD/$BRANCH
-USER=$(whoami)
-echo "app.server.parent.dir=$DPATH" > app.server.$USER.properties
+build
 
-# build with tomcat
-DPATH=$LIFERAY_BUILD/$BRANCH
-rm -r $DPATH
-mkdir -p $DPATH
-cd $SPATH
-
-set RELEASE_VERSION=RELEASE_7
-set RELEASE_INFO=\portal-kernel\src\com\liferay\portal\kernel\util\ReleaseInfo.java
-set JAVA_HOME=$JAVA7%
-find "%RELEASE_VERSION%" %PORTAL_PATH%%RELEASE_INFO%
-IF NOT ERRORLEVEL 1 set JAVA_HOME=%JAVA_8%
-
-if [ $BRANCH = "ee-6.2.x" ] || [ $BRANCH = "ee-6.1.x" ]
-then
-	export JAVA_HOME=$JAVA7	
-	export PATH=$JAVA_HOME/bin:$PATH
-fi
-java -version
-
-ant -buildfile build-dist.xml unzip-tomcat
-ant all
-
-# restore repo
+# restore original state
 cd $SPATH
 git clean -fd
 git reset --hard HEAD
 git checkout $ORIGINAL
 git stash apply
-
-# create portal-ext.properties
-cd $DPATH
-echo "liferay.home=$DPATH
-setup.wizard.enabled=false
-users.reminder.queries.enabled=false
-users.reminder.queries.custom.question.enabled=false
-terms.of.use.required=false" > portal-ext.properties
