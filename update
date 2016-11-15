@@ -12,6 +12,6 @@ if [ $# -eq 0 ]
 fi
 
 BRANCH=$1
-git fetch upstream $BRANCH:$BRANCH
+git fetch upstream $BRANCH
 git push origin $BRANCH:$BRANCH
 
