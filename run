@@ -9,13 +9,15 @@
 
 # check if parameter was given
 if [ $# -eq 0 ]
-  then
-	echo "No branchname supplied"
-	exit 1
+then
+	# get branch name
+	BRANCH=$(git branch | sed -n -e 's/^\* \(.*\)/\1/p')
+	echo "Running $BRANCH"
+else
+	BRANCH=$1
 fi
 
 #Get path and set java version
-BRANCH=$1
 DPATH=$LIFERAY_BUILD/$BRANCH
 cd $DPATH
 if [ -d tomcat-7* ] # ee-7.0.x uses tomcat-8*

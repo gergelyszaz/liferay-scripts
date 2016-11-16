@@ -1,0 +1,1 @@
+ant format-source -Dformat.local.changes=true
