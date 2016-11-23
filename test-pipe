@@ -1,0 +1,5 @@
+#!/bin/bash   
+
+read FILE
+echo "Running test: $FILE"
+test-portal $FILE

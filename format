@@ -1,1 +1,2 @@
+cd portal-impl
 ant format-source -Dformat.local.changes=true

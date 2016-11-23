@@ -1,0 +1,1 @@
+git web--browse "https://issues.liferay.com/browse/$1"

@@ -1,0 +1,6 @@
+# check if parameter was given
+if [ $# -ne 3 ]
+then
+	echo "Arguments should be: <user> <branch> <LPS>"
+fi
+gh pr -s $1 -b $2 -t "$3 $2"

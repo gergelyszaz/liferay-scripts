@@ -1,0 +1,20 @@
+# check if there is a parameter
+if [ $# -eq 0 ]
+  then
+	echo "No testname supplied"
+	exit 1
+fi
+
+# set java version
+RELEASE_VERSION="RELEASE_7"
+RELEASE_INFO=portal-kernel/src/com/liferay/portal/kernel/util/ReleaseInfo.java
+if grep -q $RELEASE_VERSION $RELEASE_INFO
+then
+    export JAVA_HOME=$JAVA8
+else
+    export JAVA_HOME=$JAVA7	
+fi
+export PATH=$JAVA_HOME/bin:$PATH
+java -version
+cd portal-impl
+ant test-class -Dtest.class=$1

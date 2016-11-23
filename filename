@@ -1,0 +1,3 @@
+#!/bin/bash   
+read FILE 
+echo $FILE | sed 's/.*\///g' | sed 's/\..*//g'

@@ -1,9 +1,10 @@
 # Author: Gergely Száz <gergely.szaz@liferay.com>
 # Usage: run this from the liferay source folder.
 # Environmental variables: 
-# 	LIFERAY_BUILD: build folder path
-#	JAVA7: java 7 path
-#	JAVA8: java 8 path
+# 	LIFERAY_BUILD: build folder path, built portals go here 
+#	JAVA7: java 7 jdk path
+#	JAVA8: java 8 jdk path
+
 
 # get branch name
 BRANCH=$(git branch | sed -n -e 's/^\* \(.*\)/\1/p')
@@ -15,16 +16,19 @@ rm -r $DPATH
 mkdir -p $DPATH
 
 # set java version
-RELEASE_VERSION="RELEASE_7"
-RELEASE_INFO=portal-kernel/src/com/liferay/portal/kernel/util/ReleaseInfo.java
-if grep -q $RELEASE_VERSION $RELEASE_INFO
-then
-    export JAVA_HOME=$JAVA8
-else
-    export JAVA_HOME=$JAVA7	
-fi
+JAVA_VERSION=$(cat "build.properties" | grep "ant.build.javac.source" | cut -d \= -f 2  )
+echo "Java version in build.properties $JAVA_VERSION"
+case $JAVA_VERSION in
+1.8)
+    export JAVA_HOME=$JAVA8;;
+1.[6-7])
+    export JAVA_HOME=$JAVA7;;
+esac
 export PATH=$JAVA_HOME/bin:$PATH
-java -version
+echo "Using $(java -version  2>&1 >/dev/null | grep version)"
+
+echo
+echo
 
 # build
 USER=$(whoami)

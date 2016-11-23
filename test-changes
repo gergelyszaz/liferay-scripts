@@ -1,0 +1,13 @@
+#!/bin/bash   
+
+BASE=$1
+# get branch name
+BRANCH=$(git branch | sed -n -e 's/^\* \(.*\)/\1/p')
+echo "Testing $BRANCH against $BASE"
+HEAD=$(git log $BASE..$BRANCH | grep commit | head -1 | cut -d " " -f2)
+TAIL=$(git log $BASE..$BRANCH | grep commit | tail -1 | cut -d " " -f2)
+echo "Running tests modified between $HEAD and $TAIL"
+echo 
+C1=$HEAD
+C2=$TAIL
+git diff --name-only $C1^ $C2 | grep "Test" | filename | test-pipe 
