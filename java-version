@@ -1,0 +1,7 @@
+JAVA_VERSION=$( cat "build.properties" | grep "ant.build.javac.source" | cut -d \= -f 2  )
+case $JAVA_VERSION in
+1.8)
+    echo $JAVA8;;
+1.[6-7])
+    echo $JAVA7;;
+esac

@@ -1,3 +1,5 @@
+#!/bin/bash   
+
 # Author: Gergely Száz <gergely.szaz@liferay.com>
 # For updating a certain branch from liferay-portal-ee, typically:
 #		master
@@ -11,8 +13,19 @@ if [ $# -eq 0 ]
 	exit 1
 fi
 
+# get branch name
+BRANCH=$(branch)
+if [ $BRANCH == $1 ]
+  then
+    echo "$1 is in local repository"
+    ACTION=pull
+  else
+	ACTION=fetch
+fi
+
 BRANCH=$1
 echo
 echo "Updating $BRANCH"
-git fetch upstream $BRANCH:$BRANCH  # does not actually merge changes, if it's not branch:branch
+
+git $ACTION upstream $BRANCH:$BRANCH  # does not actually merge changes, if it's not branch:branch
 git push origin $BRANCH:$BRANCH

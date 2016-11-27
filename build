@@ -16,7 +16,7 @@ rm -r $DPATH
 mkdir -p $DPATH
 
 # set java version
-JAVA_VERSION=$(cat "build.properties" | grep "ant.build.javac.source" | cut -d \= -f 2  )
+JAVA_VERSION=$( cat "build.properties" | grep "ant.build.javac.source" | cut -d \= -f 2  )
 echo "Java version in build.properties $JAVA_VERSION"
 case $JAVA_VERSION in
 1.8)
@@ -25,7 +25,7 @@ case $JAVA_VERSION in
     export JAVA_HOME=$JAVA7;;
 esac
 export PATH=$JAVA_HOME/bin:$PATH
-echo "Using $(java -version  2>&1 >/dev/null | grep version)"
+echo "Using $(java -version  2>&1 | grep version)"
 
 echo
 echo
