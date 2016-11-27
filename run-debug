@@ -13,11 +13,12 @@
 if [ $# -eq 0 ]
 then
 	# get branch name
-	BRANCH=$(git branch | sed -n -e 's/^\* \(.*\)/\1/p')
-	echo "Running $BRANCH"
+	BRANCH=$(branch)
 else
 	BRANCH=$1
 fi
+
+echo "Running $BRANCH"
 
 #Get path and set java version
 DPATH=$LIFERAY_BUILD/$BRANCH

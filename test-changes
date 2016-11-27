@@ -3,11 +3,12 @@ if [ $# -eq 0 ]
   then
     echo "No base branch supplied"
 	exit 1
+  else
+    BASE=$1    
 fi
 
-BASE=$1
 # get branch name
-BRANCH=$(git branch | sed -n -e 's/^\* \(.*\)/\1/p')
+BRANCH=$(branch)
 echo "Testing $BRANCH against $BASE"
 HEAD=$(git log $BASE..$BRANCH | grep commit | head -1 | cut -d " " -f2)
 TAIL=$(git log $BASE..$BRANCH | grep commit | tail -1 | cut -d " " -f2)

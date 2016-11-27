@@ -15,15 +15,7 @@ DPATH=$LIFERAY_BUILD/$BRANCH
 rm -r $DPATH
 mkdir -p $DPATH
 
-# set java version
-JAVA_VERSION=$( cat "build.properties" | grep "ant.build.javac.source" | cut -d \= -f 2  )
-echo "Java version in build.properties $JAVA_VERSION"
-case $JAVA_VERSION in
-1.8)
-    export JAVA_HOME=$JAVA8;;
-1.[6-7])
-    export JAVA_HOME=$JAVA7;;
-esac
+JAVA_HOME=$(java-version)
 export PATH=$JAVA_HOME/bin:$PATH
 echo "Using $(java -version  2>&1 | grep version)"
 
