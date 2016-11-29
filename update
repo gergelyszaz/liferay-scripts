@@ -7,23 +7,25 @@
 #		ee-6.2.x
 
 # check if there is a parameter
+CURRENT=$(branch)
+
 if [ $# -eq 0 ]
-  then
-	echo "No branchname supplied"
-	exit 1
+then
+	BRANCH=$CURRENT
+else
+	BRANCH=$1
 fi
 
 # get branch name
-BRANCH=$(branch)
-if [ $BRANCH == $1 ]
+
+if [ $BRANCH == $CURRENT ]
   then
-    echo "$1 is in local repository"
+    echo "$BRANCH is in local repository"
     ACTION=pull
   else
 	ACTION=fetch
 fi
 
-BRANCH=$1
 echo
 echo "Updating $BRANCH"
 

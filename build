@@ -7,7 +7,7 @@
 
 
 # get branch name
-BRANCH=$(git branch | sed -n -e 's/^\* \(.*\)/\1/p')
+BRANCH=$(branch)
 echo "Building $BRANCH"
 
 # clean build folder
@@ -25,13 +25,23 @@ echo
 # build
 USER=$(whoami)
 echo "app.server.parent.dir=$DPATH" > app.server.$USER.properties
+
+echo "
+jsp.precompile=on
+jsp.precompile.dir=docroot
+microsoft.translator.client.id=ER_Translator
+microsoft.translator.client.secret=KG+XR6K727xLyZnoGboBFbqEJtpEf05xa+sbUSxVc8I=
+" > portal-ext.properties
+
 ant -buildfile build-dist.xml unzip-tomcat
 ant all
 
 # create portal-ext.properties
 cd $DPATH
-echo "liferay.home=$DPATH
+echo "
+liferay.home=$DPATH
 setup.wizard.enabled=false
 users.reminder.queries.enabled=false
 users.reminder.queries.custom.question.enabled=false
-terms.of.use.required=false" > portal-ext.properties
+terms.of.use.required=false
+" > portal-ext.properties

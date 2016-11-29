@@ -1,0 +1,9 @@
+BRANCH=$(branch)
+echo "Are you sure? y/n"
+read ANSWER
+if [[ $ANSWER = 'y' ]]
+then
+	git branch | grep -v "$BRANCH" | xargs git branch -D 
+else
+	echo "Abort"
+fi
