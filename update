@@ -26,5 +26,11 @@ fi
 echo
 echo "Updating $BRANCH"
 
+if [[ $ACTION = pull ]]
+then
+	git clean -fd
+	git reset --hard
+fi
+
 git $ACTION upstream $BRANCH:$BRANCH  # does not actually merge changes, if it's not branch:branch
 git push origin $BRANCH:$BRANCH

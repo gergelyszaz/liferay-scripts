@@ -26,12 +26,7 @@ echo
 USER=$(whoami)
 echo "app.server.parent.dir=$DPATH" > app.server.$USER.properties
 
-echo "
-jsp.precompile=on
-jsp.precompile.dir=docroot
-microsoft.translator.client.id=ER_Translator
-microsoft.translator.client.secret=KG+XR6K727xLyZnoGboBFbqEJtpEf05xa+sbUSxVc8I=
-" > portal-ext.properties
+[ -f build-ext ] && build-ext
 
 ant -buildfile build-dist.xml unzip-tomcat
 ant all
