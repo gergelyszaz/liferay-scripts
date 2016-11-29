@@ -1,5 +1,40 @@
 #!/bin/bash   
 
-#Author: Gergely Sz√°z <gergely.szaz@liferay.com>
-#silent run
-run-debug 2>&1 | grep -v "INFO\|WARN" 
+# Author: Gergely Sz·z <gergely.szaz@liferay.com>
+# For running the branch
+# Parameters:
+#	$1: Branchname
+# Environmental variables:
+#	LIFERAY_BUILD: build folder path
+#	JAVA7: java 7 path
+#	JAVA8: java 8 path
+
+# check if parameter was given
+if [ $# -eq 0 ]
+then
+	# get branch name
+	BRANCH=$(branch)
+else
+	BRANCH=$1
+fi
+
+echo "Running $BRANCH"
+
+#Get path and set java version
+DPATH=$LIFERAY_BUILD/$BRANCH
+cd $DPATH
+if [ -d tomcat-7* ] # ee-7.0.x uses tomcat-8*
+then
+	export JAVA_HOME=$JAVA7
+else
+	export JAVA_HOME=$JAVA8
+fi
+export PATH=$JAVA_HOME/bin:$PATH
+
+#Enter tomcat-*/bin
+cd $DPATH
+TOMCAT="$(ls | grep tomcat | grep -v *.zip)"
+cd $TOMCAT/bin
+
+#Run
+./catalina.sh run 2>&1 | grep -v "INFO\|WARN" 

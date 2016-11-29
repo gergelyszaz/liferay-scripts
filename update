@@ -6,7 +6,6 @@
 #		ee-7.0.x
 #		ee-6.2.x
 
-# check if there is a parameter
 CURRENT=$(branch)
 
 if [ $# -eq 0 ]
@@ -15,8 +14,6 @@ then
 else
 	BRANCH=$1
 fi
-
-# get branch name
 
 if [ $BRANCH == $CURRENT ]
   then
