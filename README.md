@@ -10,8 +10,8 @@ Have Git Bash set up so you don't need to provide a passphrase everytime you do 
 
 
 Create the following environmental variables:
-* JAVA7 - jdk 1.8 path
-* JAVA8 - jdk 1.7 path
+* JAVA7 - jdk 1.7 path
+* JAVA8 - jdk 1.8 path
 * LIFERAY_GITHUB - local liferay-portal-ee repository path
 * LIFERAY_BUILD - build folder path
 
