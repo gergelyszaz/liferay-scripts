@@ -11,7 +11,7 @@ BRANCH=$(branch)
 echo "Building $BRANCH"
 
 # clean build folder
-DPATH=$LIFERAY_BUILD/$BRANCH
+DPATH=$LIFERAY_BUILD/$BRANCH-temp
 rm -r $DPATH
 mkdir -p $DPATH
 
@@ -26,17 +26,29 @@ echo
 USER=$(whoami)
 echo "app.server.parent.dir=$DPATH" > app.server.$USER.properties
 
-[ -f build-ext ] && build-ext
+#build-ext
 
 ant -buildfile build-dist.xml unzip-tomcat
 ant all
 
+if [ $? -eq 0 ] 
+then
+    echo "Finalizing build"
+else
+	exit 1
+fi
+
+cd $LIFERAY_BUILD
+# clean build folder
+DPATH=$LIFERAY_BUILD/$BRANCH
+
+rm -r $DPATH
+mv $DPATH-temp $DPATH
+
 # create portal-ext.properties
 cd $DPATH
-echo "
-liferay.home=$DPATH
+echo "liferay.home=$DPATH
 setup.wizard.enabled=false
 users.reminder.queries.enabled=false
 users.reminder.queries.custom.question.enabled=false
-terms.of.use.required=false
-" > portal-ext.properties
+terms.of.use.required=false" > portal-ext.properties

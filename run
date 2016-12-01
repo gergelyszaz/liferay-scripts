@@ -23,7 +23,7 @@ echo "Running $BRANCH"
 #Get path and set java version
 DPATH=$LIFERAY_BUILD/$BRANCH
 cd $DPATH
-if [ -d tomcat-7* ] # ee-7.0.x uses tomcat-8*
+if [ -d tomcat-7* ] # ee-7.0.x uses tomcat-8*, could use a better check
 then
 	export JAVA_HOME=$JAVA7
 else
@@ -37,4 +37,4 @@ TOMCAT="$(ls | grep tomcat | grep -v *.zip)"
 cd $TOMCAT/bin
 
 #Run
-./catalina.sh run 2>&1 | grep -v "INFO\|WARN" 
+./catalina.sh run #2>&1 | grep -v "INFO\|WARN" # TODO replace lines with dots

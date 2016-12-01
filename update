@@ -1,10 +1,9 @@
 #!/bin/bash   
 
 # Author: Gergely Száz <gergely.szaz@liferay.com>
-# For updating a certain branch from liferay-portal-ee, typically:
-#		master
-#		ee-7.0.x
-#		ee-6.2.x
+# For updating a certain branch from liferay-portal-ee.
+# Run from the repo folder without parameter to pull the current branch from upstream
+# 	or add the branch name as a param to update any branch.
 
 CURRENT=$(branch)
 
