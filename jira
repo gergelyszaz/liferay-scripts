@@ -1,1 +1,10 @@
-git web--browse "https://issues.liferay.com/browse/$1"
+# check if parameter was given
+if [ $# -eq 0 ]
+then
+	# get branch name
+	BRANCH=$(branch)
+else
+	BRANCH=$1
+fi
+
+git web--browse "https://issues.liferay.com/browse/$BRANCH"

@@ -1,0 +1,1 @@
+git web--browse "https://github.com/$1/liferay-portal-ee/compare/$2...gergelyszaz:$(branch)?expand=1"
