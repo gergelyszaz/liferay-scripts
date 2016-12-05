@@ -1,0 +1,3 @@
+echo "$1-base=$(branch)" >> ../portal-ee-branches.properties
+git checkout -b $1
+echo "Create $1 from $(get-property ../portal-ee-branches.properties $1-base)"

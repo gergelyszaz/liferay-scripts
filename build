@@ -43,7 +43,7 @@ cd $LIFERAY_BUILD
 DPATH=$LIFERAY_BUILD/$BRANCH
 
 rm -r $DPATH
-mv $DPATH-temp $DPATH
+cp -r $DPATH-temp $DPATH
 
 # create portal-ext.properties
 cd $DPATH
