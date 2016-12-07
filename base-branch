@@ -1,1 +1,0 @@
-get-property ../portal-ee-branches.properties "$(branch)-base"

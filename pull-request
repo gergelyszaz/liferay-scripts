@@ -1,1 +1,6 @@
-git web--browse "https://github.com/$1/liferay-portal-ee/compare/$(base-branch)...gergelyszaz:$(branch)?expand=1"
+REPOSITORY=$(git remote get-url origin | sed 's/.*\///g' | sed 's/\.git//g')
+echo $REPOSITORY
+USER=$1
+BRANCH=$(branch)
+BASE_BRANCH=$2
+git web--browse "https://github.com/$USER/$REPOSITORY/compare/$BASE_BRANCH...gergelyszaz:$BRANCH?expand=1"
