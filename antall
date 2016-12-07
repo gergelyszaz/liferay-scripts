@@ -1,0 +1,5 @@
+JAVA_HOME=$(java-version)
+export PATH=$JAVA_HOME/bin:$PATH
+echo "Using $(java -version  2>&1 | grep version)"
+ant -buildfile build-dist.xml unzip-tomcat
+ant all
