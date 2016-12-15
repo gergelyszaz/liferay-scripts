@@ -1,0 +1,22 @@
+#!/bin/bash   
+if [ $# -eq 0 ]
+  then
+    echo "No version supplied"
+	exit 1
+  else
+    VERSION=$1    
+fi
+
+TODAY=$(date +"%Y-%m-%d" )
+FILENAME=liferay-$VERSION-$TODAY.zip
+BUNDLE=$LIFERAY_DAILY_BUILD_PATH/$FILENAME
+ZIP=$LIFERAY_BUILD/$FILENAME
+echo "Copying to $ZIP"
+cp $BUNDLE $ZIP
+DESTINATION=$LIFERAY_BUILD/$VERSION
+rm -rd $DESTINATION
+echo "Unzipping to $DESTINATION"
+unzip $ZIP -d $DESTINATION
+cp $LIFERAY_BUILD/portal-ext.properties $DESTINATION/portal-ext.properties
+echo "Removing temporary files"
+rm $ZIP

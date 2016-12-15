@@ -37,4 +37,4 @@ TOMCAT="$(ls | grep tomcat | grep -v *.zip)"
 cd $TOMCAT/bin
 
 #Run
-./catalina.sh run #2>&1 | grep -v "INFO\|WARN" # TODO replace lines with dots
+./catalina.sh $2 run #2>&1 | grep -v "INFO\|WARN" # TODO replace lines with dots

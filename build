@@ -38,17 +38,9 @@ else
 	exit 1
 fi
 
-cd $LIFERAY_BUILD
-# clean build folder
-DPATH=$LIFERAY_BUILD/$BRANCH
 
-rm -r $DPATH
-cp -r $DPATH-temp $DPATH
+rm -r $LIFERAY_BUILD/$BRANCH
+cp -r "$LIFERAY_BUILD/$BRANCH-temp" $LIFERAY_BUILD/$BRANCH
 
-# create portal-ext.properties
-cd $DPATH
-echo "liferay.home=$DPATH
-setup.wizard.enabled=false
-users.reminder.queries.enabled=false
-users.reminder.queries.custom.question.enabled=false
-terms.of.use.required=false" > portal-ext.properties
+echo "Copying portal-ext.properties"
+cp $LIFERAY_BUILD/portal-ext.properties $LIFERAY_BUILD/$BRANCH/portal-ext.properties
