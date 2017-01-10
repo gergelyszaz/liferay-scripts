@@ -14,8 +14,16 @@ Create the following environmental variables:
 * JAVA8 - jdk 1.8 path
 * LIFERAY_GITHUB - local liferay-portal-ee repository path
 * LIFERAY_BUILD - build folder path
+* LIFERAY_DAILY_BUILD_PATH - daily build folder path
+* GITHUB_USER - your github username
 
 ## Scripts
+
+### antall
+Run from liferay-portal-ee repository root.
+
+Builds the portal with tomcat with the correct java version. Does not create or override properties files.
+
 ### branch
 Run from a git repository.
 
@@ -24,10 +32,10 @@ Prints out the current branch name of the git repository to the output.
 ### build
 Run from liferay-portal-ee repository root.
 
-Builds the current branch to its own folder.
+Builds the current branch to its own folder and creates properties files.
 
 ### delete-branches
-Deletes every branch of the repository, except for the current one.
+Deletes every branch of the repository, except for the current one. Useful for saving disk space.
 
 ### filename
 Use in pipe.
@@ -37,7 +45,13 @@ Prints out the name of the file given with path.
 ### format
 Run from liferay-portal-ee repository root.
 
-Runs ant format-source
+Runs ant format-source.
+
+### get-daily-build
+Gets and extracts the daily build.
+
+Params:
+* $1: branch name
 
 ### get-property
 Params:
@@ -46,8 +60,8 @@ Params:
 
 Prints out the property value.
 
-### ghpr
-Send pull request. UNDER CONSTRUCTION
+### gradlew
+Finds and runs gradlew. Use to omit ./../../../../ part.
 
 ### java-version
 Run from liferay-portal-ee repository root.
@@ -58,6 +72,12 @@ Prints out the correct java path to be used based on the build.properties file.
 Params:
 * $1 : ticket number
 Open jira page of ticket in web browser.
+
+### pull-request
+Run from liferay-portal-ee repository. Needs git remote "origin" to be set.
+Opens a github pull request web page to the correct repo and branch.
+Params:
+* $1 : username of the pull request recipient
 
 ### push
 Push current local branch to origin.
